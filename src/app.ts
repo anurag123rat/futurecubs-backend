@@ -19,7 +19,7 @@ app.use(helmet());
 // Enable CORS
 
 app.use(cors({
-  origin:["http://localhost:3000","https://futurecubs-frontend-zmzo.vercel.app/",] ,
+  origin:["http://localhost:3000","https://futurecubs-frontend-zmzo.vercel.app",] ,
   credentials: true,
 }));
 
