@@ -15,13 +15,31 @@ router.post("/chat", protect, aiRateLimiter, async (req: Request, res: Response)
 
     const ai = await getAI();
 
-    const result = await ai.models.generateContent({
-      model: "gemini-flash-latest",
-      contents: message,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-      },
-    });
+    let lastError;
+    let result;
+    const maxRetries = 2;
+
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        result = await ai.models.generateContent({
+          model: "gemini-flash-latest",
+          contents: message,
+          config: { systemInstruction: SYSTEM_INSTRUCTION },
+        });
+        break; // success, exit retry loop
+      } catch (err: any) {
+        lastError = err;
+        const isOverloaded = err?.status === 503 || err?.message?.includes("UNAVAILABLE");
+        if (isOverloaded && attempt < maxRetries) {
+          await new Promise((r) => setTimeout(r, 1000 * (attempt + 1))); // backoff: 1s, 2s
+          continue;
+        }
+        throw err;
+      }
+    }
+     if (!result) {
+  throw lastError || new Error("AI generation failed");
+}
 
     return res.status(200).json({ success: true, reply: result.text });
   } catch (err: any) {

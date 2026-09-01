@@ -24,6 +24,8 @@ app.use(cors({
   credentials: true,
 }));
 
+app.set("trust proxy", 1);
+
 // Parse JSON
 app.use(express.json());
 
