@@ -92,7 +92,17 @@ export const refresh = async (req: Request, res: Response) => {
     const userId = (user._id as any).toString();
     const newAccessToken = generateAccessToken(userId, user.role);
 
-    res.status(200).json({ accessToken: newAccessToken });
+        res.status(200).json({
+      accessToken: newAccessToken,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
+      },
+    });
   } catch (error) {
     return res.status(401).json({ message: "Refresh token expired or invalid" });
   }
