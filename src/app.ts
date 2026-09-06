@@ -36,7 +36,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Compress Responses
-app.use(compression());
+ app.use(compression({
+  filter: (req, res) => {
+    if (req.path.startsWith("/api/ai")) return false;
+    return compression.filter(req, res);
+  },
+}));
 
 // Logger
 app.use(morgan("dev"));
