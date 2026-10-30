@@ -1,2 +1,8 @@
 node_modules
 .env
+chroma-env/
+chroma-data/
+uploads/
+uploads/rag/
+uploads/chunks-preview.json
+uploads/testimonials.*

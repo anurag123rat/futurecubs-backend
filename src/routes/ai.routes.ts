@@ -23,7 +23,7 @@ router.post("/chat", protect, aiRateLimiter, async (req: Request, res: Response)
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
         stream = await ai.models.generateContentStream({
-          model: "gemini-flash-latest",
+          model: "gemini-flash-lite-latest",
           contents: message,
           config: { systemInstruction: SYSTEM_INSTRUCTION },
         });

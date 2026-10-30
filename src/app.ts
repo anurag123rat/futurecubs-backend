@@ -10,6 +10,7 @@ import studentRoutes from "./routes/student.routes";
 import activityTemplateRoutes from "./routes/activityTemplateRoutes";
 import lessonRoutes from "./routes/lesson.routes";
 import aiRoutes from "./routes/ai.routes";
+import ragRoutes from "./routes/rag.routes";
 
 
 const app = express();
@@ -58,5 +59,6 @@ app.use("/api/activities", activityRoutes);
 app.use("/api/students", studentRoutes);  
 app.use("/api/activity-templates", activityTemplateRoutes);
 app.use("/api/lessons", lessonRoutes);
+app.use("/api/rag", ragRoutes);
 app.use("/api/ai", aiRoutes);
 export default app;
