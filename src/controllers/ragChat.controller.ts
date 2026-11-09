@@ -8,6 +8,11 @@ export const askQuestion = async (req: Request, res: Response) => {
     return;
   }
 
-  const data = await answerQuestion(question);
-  res.json({ success: true, data });
+     try {
+    const data = await answerQuestion(question);
+    res.json({ success: true, data });
+  } catch (err: any) {
+    console.error("RAG ask failed:", err);
+    res.status(500).json({ success: false, message: err?.message ?? "RAG failed" });
+  }
 };
